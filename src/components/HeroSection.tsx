@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { ContainerScroll } from "@/components/ui/container-scroll-animation";
 import { ArrowRight, Play } from "lucide-react";
-import dashboardImg from "@/assets/dashboard-preview.jpg";
+import dashboardImg from "@/assets/dashboard-screenshot.png";
 
 export default function HeroSection() {
   return (
