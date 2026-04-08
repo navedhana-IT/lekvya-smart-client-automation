@@ -1,5 +1,5 @@
 import { motion, useInView } from "framer-motion";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import {
   Accordion,
   AccordionContent,
@@ -37,6 +37,7 @@ const faqs = [
 export default function FAQSection() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const [activeItem, setActiveItem] = useState<string | undefined>(undefined);
 
   return (
     <section id="faq" className="py-24 bg-secondary/50">
@@ -64,12 +65,20 @@ export default function FAQSection() {
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ delay: 0.2 }}
         >
-          <Accordion type="single" collapsible className="space-y-3">
+          <Accordion 
+            type="single" 
+            collapsible 
+            className="space-y-3"
+            value={activeItem}
+            onValueChange={setActiveItem}
+            onMouseLeave={() => setActiveItem(undefined)}
+          >
             {faqs.map((faq, i) => (
               <AccordionItem
                 key={i}
                 value={`faq-${i}`}
-                className="bg-card border border-border rounded-xl px-6"
+                className="bg-card border border-border rounded-xl px-6 transition-all"
+                onMouseEnter={() => setActiveItem(`faq-${i}`)}
               >
                 <AccordionTrigger className="text-left font-semibold text-foreground hover:no-underline">
                   {faq.q}

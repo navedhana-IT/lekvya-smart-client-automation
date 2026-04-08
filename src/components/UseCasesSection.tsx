@@ -1,5 +1,5 @@
-import { motion, useInView } from "framer-motion";
-import { useRef, useState } from "react";
+import { motion, useInView, useScroll, useMotionValueEvent } from "framer-motion";
+import { useRef, useState, useEffect } from "react";
 import {
   ShoppingCart,
   Landmark,
@@ -168,13 +168,40 @@ const industries = [
 ];
 
 export default function UseCasesSection() {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const containerRef = useRef<HTMLElement>(null);
+  const innerRef = useRef(null);
+  const isInView = useInView(innerRef, { once: true, margin: "-100px" });
   const [activeIndustry, setActiveIndustry] = useState(0);
 
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start start", "end end"],
+  });
+
+  useMotionValueEvent(scrollYProgress, "change", (latest) => {
+    const newIndex = Math.min(
+      Math.floor(latest * industries.length),
+      industries.length - 1
+    );
+    setActiveIndustry(newIndex);
+  });
+
+  const handleTabClick = (i: number) => {
+    setActiveIndustry(i);
+    if (containerRef.current) {
+      const topOfSection = containerRef.current.offsetTop;
+      const sectionHeight = containerRef.current.offsetHeight;
+      const targetScroll =
+        topOfSection +
+        ((i + 0.1) / industries.length) * (sectionHeight - window.innerHeight);
+      window.scrollTo({ top: targetScroll, behavior: "smooth" });
+    }
+  };
+
   return (
-    <section id="use-cases" className="py-24 bg-secondary/30">
-      <div className="container mx-auto px-4" ref={ref}>
+    <section id="use-cases" className="relative h-[400vh] bg-secondary/30" ref={containerRef}>
+      <div className="sticky top-0 w-full min-h-screen py-16 flex flex-col justify-center overflow-hidden">
+        <div className="container mx-auto px-4" ref={innerRef}>
         {/* Header */}
         <div className="text-center mb-16">
           <motion.span
@@ -217,7 +244,7 @@ export default function UseCasesSection() {
                 return (
                   <button
                     key={industry.title}
-                    onClick={() => setActiveIndustry(i)}
+                    onClick={() => handleTabClick(i)}
                     className={`flex items-center gap-3 px-4 py-3 rounded-xl text-left whitespace-nowrap transition-all duration-300 shrink-0 ${
                       activeIndustry === i
                         ? "bg-primary text-primary-foreground shadow-elevated"
@@ -289,6 +316,7 @@ export default function UseCasesSection() {
             </div>
           </div>
         </motion.div>
+      </div>
       </div>
     </section>
   );
