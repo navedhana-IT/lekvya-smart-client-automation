@@ -1,4 +1,4 @@
-import logo from "@/assets/lekvya-logo.png";
+import logo from "@/assets/lekvya-logo-new.png";
 import { Mail, Phone, MapPin } from "lucide-react";
 
 export default function Footer() {
@@ -7,7 +7,7 @@ export default function Footer() {
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
           <div className="md:col-span-2">
-            <img src={logo} alt="Lekvya" className="h-8 mb-4 brightness-200" />
+            <img src={logo} alt="Lekvya" className="h-14 w-auto object-contain mb-6" style={{ mixBlendMode: 'screen' }} />
             <p className="text-background/60 text-sm leading-relaxed max-w-md">
               Automate your client communication and onboarding with AI-powered
               workflows. Built for CAs, financial firms, and marketing teams.

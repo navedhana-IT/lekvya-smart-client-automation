@@ -6,7 +6,6 @@ import {
   FileText,
   LayoutTemplate,
   Shield,
-  Upload,
   BarChart3,
 } from "lucide-react";
 import { CircularTestimonials } from "@/components/ui/circular-testimonials";
@@ -36,11 +35,6 @@ const features = [
     icon: Shield,
     title: "Organization & Client Login",
     description: "Secure multi-user access with separate organization and client portals.",
-  },
-  {
-    icon: Upload,
-    title: "Client Document Submission",
-    description: "Easy document upload and management with organized file handling.",
   },
   {
     icon: BarChart3,

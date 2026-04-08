@@ -1,15 +1,17 @@
 import { motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { ContainerScroll } from "@/components/ui/container-scroll-animation";
 import { ArrowRight, Play } from "lucide-react";
 import dashboardImg from "@/assets/dashboard-screenshot.png";
 
 export default function HeroSection() {
+  const navigate = useNavigate();
   return (
     <section className="bg-hero-gradient pt-16">
       <ContainerScroll
         titleComponent={
-          <div className="flex flex-col items-center gap-6">
+          <div className="flex flex-col items-center gap-6 pb-8 md:pb-12">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -43,23 +45,14 @@ export default function HeroSection() {
               transition={{ duration: 0.5, delay: 0.3 }}
               className="flex flex-col sm:flex-row gap-3"
             >
-              <Button size="lg" className="bg-gradient-primary text-primary-foreground gap-2 text-base px-8 h-12 shadow-elevated">
+              <Button size="lg" className="bg-gradient-primary text-primary-foreground gap-2 text-base px-8 h-12 shadow-elevated" onClick={() => navigate("/login")}>
                 Start Free Trial <ArrowRight className="w-4 h-4" />
               </Button>
-              <Button size="lg" variant="outline" className="gap-2 text-base px-8 h-12">
+              <Button size="lg" variant="outline" className="gap-2 text-base px-8 h-12" onClick={() => navigate("/login")}>
                 <Play className="w-4 h-4" /> Book a Demo
               </Button>
             </motion.div>
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.5, delay: 0.5 }}
-              className="flex items-center gap-6 pt-4 text-sm text-muted-foreground"
-            >
-              <span className="flex items-center gap-1.5">🔒 Secure</span>
-              <span className="flex items-center gap-1.5">⚡ Reliable</span>
-              <span className="flex items-center gap-1.5">🏢 Built for Professionals</span>
-            </motion.div>
+
           </div>
         }
       >

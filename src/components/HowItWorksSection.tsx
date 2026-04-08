@@ -1,5 +1,5 @@
 import { motion, useInView } from "framer-motion";
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import { UserPlus, FolderUp, Send, ArrowRight, CheckCircle2 } from "lucide-react";
 
 const steps = [
@@ -48,6 +48,16 @@ export default function HowItWorksSection() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
   const [activeStep, setActiveStep] = useState(0);
+
+  useEffect(() => {
+    if (!isInView) return;
+
+    const timer = setInterval(() => {
+      setActiveStep((prev) => (prev + 1) % steps.length);
+    }, 4000);
+
+    return () => clearInterval(timer);
+  }, [isInView]);
 
   return (
     <section id="how-it-works" className="py-24 bg-secondary/30 overflow-hidden">

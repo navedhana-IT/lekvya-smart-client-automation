@@ -1,11 +1,13 @@
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 
 export default function CTASection() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const navigate = useNavigate();
 
   return (
     <section className="py-24 bg-background">
@@ -25,10 +27,10 @@ export default function CTASection() {
               Join hundreds of professionals who save 10+ hours every week with Lekvya AI Automation.
             </p>
             <div className="flex flex-col sm:flex-row gap-3 justify-center">
-              <Button size="lg" className="bg-background text-foreground hover:bg-background/90 gap-2 text-base px-8 h-12">
+              <Button size="lg" className="bg-background text-foreground hover:bg-background/90 gap-2 text-base px-8 h-12" onClick={() => navigate("/login")}>
                 Start Free Trial <ArrowRight className="w-4 h-4" />
               </Button>
-              <Button size="lg" variant="outline" className="border-primary-foreground/30 text-primary-foreground hover:bg-primary-foreground/10 text-base px-8 h-12">
+              <Button size="lg" className="bg-background text-foreground hover:bg-background/90 border-0 text-base px-8 h-12" onClick={() => navigate("/login")}>
                 Book a Demo
               </Button>
             </div>

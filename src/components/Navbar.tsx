@@ -1,8 +1,9 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import logo from "@/assets/lekvya-logo.png";
+import logo from "@/assets/lekvya-logo-new.png";
 
 const navLinks = [
   { label: "Features", href: "#features" },
@@ -10,16 +11,18 @@ const navLinks = [
   { label: "Pricing", href: "#pricing" },
   { label: "Use Cases", href: "#use-cases" },
   { label: "FAQ", href: "#faq" },
+  { label: "Contact Us", href: "#contact" },
 ];
 
 export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const navigate = useNavigate();
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-lg border-b border-border">
       <div className="container mx-auto flex items-center justify-between h-16 px-4">
-        <a href="#" className="flex items-center gap-2">
-          <img src={logo} alt="Lekvya" className="h-8" />
+        <a href="#" className="flex items-center">
+          <img src={logo} alt="Lekvya" className="h-12 w-auto object-contain" />
         </a>
 
         <div className="hidden md:flex items-center gap-8">
@@ -35,10 +38,10 @@ export default function Navbar() {
         </div>
 
         <div className="hidden md:flex items-center gap-3">
-          <Button variant="ghost" size="sm">
+          <Button variant="ghost" size="sm" onClick={() => navigate("/login")}>
             Book a Demo
           </Button>
-          <Button size="sm" className="bg-gradient-primary text-primary-foreground">
+          <Button size="sm" className="bg-gradient-primary text-primary-foreground" onClick={() => navigate("/login")}>
             Start Free Trial
           </Button>
         </div>
@@ -71,8 +74,8 @@ export default function Navbar() {
                 </a>
               ))}
               <div className="flex flex-col gap-2 pt-2">
-                <Button variant="outline" size="sm">Book a Demo</Button>
-                <Button size="sm" className="bg-gradient-primary text-primary-foreground">Start Free Trial</Button>
+                <Button variant="outline" size="sm" onClick={() => { setMobileOpen(false); navigate("/login"); }}>Book a Demo</Button>
+                <Button size="sm" className="bg-gradient-primary text-primary-foreground" onClick={() => { setMobileOpen(false); navigate("/login"); }}>Start Free Trial</Button>
               </div>
             </div>
           </motion.div>
