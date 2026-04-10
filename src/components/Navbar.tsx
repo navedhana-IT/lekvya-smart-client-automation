@@ -6,11 +6,11 @@ import { Button } from "@/components/ui/button";
 import logo from "@/assets/lekvya-logo-new.png";
 
 const navLinks = [
+  { label: "Home", href: "#" },
   { label: "Features", href: "#features" },
   { label: "How It Works", href: "#how-it-works" },
   { label: "Pricing", href: "#pricing" },
   { label: "Use Cases", href: "#use-cases" },
-  { label: "FAQ", href: "#faq" },
   { label: "Contact Us", href: "#contact" },
 ];
 

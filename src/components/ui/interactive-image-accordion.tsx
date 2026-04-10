@@ -18,7 +18,7 @@ const AccordionItem = ({ item, isActive, onMouseEnter }: AccordionItemProps) => 
       onMouseEnter={onMouseEnter}
       className={`relative overflow-hidden rounded-2xl cursor-pointer transition-all duration-500 ease-in-out ${
         isActive ? "flex-[4]" : "flex-[0.8]"
-      } h-[350px] md:h-[450px]`}
+      } h-full min-h-[140px]`}
     >
       <img
         src={item.imageUrl}
@@ -57,7 +57,7 @@ export function InteractiveImageAccordion({
   const [activeIndex, setActiveIndex] = useState(defaultActiveIndex);
 
   return (
-    <div className="flex gap-2 md:gap-3 w-full">
+    <div className="flex gap-2 md:gap-3 w-full h-full">
       {items.map((item, index) => (
         <AccordionItem
           key={item.id}

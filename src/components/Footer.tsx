@@ -33,7 +33,7 @@ export default function Footer() {
             <h4 className="font-semibold text-background mb-4">Contact</h4>
             <ul className="space-y-3 text-sm text-background/60">
               <li className="flex items-center gap-2">
-                <Mail className="w-4 h-4" /> hello@lekvya.com
+                <Mail className="w-4 h-4" /> contact@navedhana.com
               </li>
               <li className="flex items-center gap-2">
                 <Phone className="w-4 h-4" /> +91 98765 43210
@@ -50,7 +50,7 @@ export default function Footer() {
             © 2025 Lekvya AI Automation. All rights reserved.
           </p>
           <p className="text-xs text-background/40">
-            Built by <span className="text-background/60">Yugminds</span> × <span className="text-background/60">Navedhana Software Services</span>
+            Built by <a href="https://www.yugminds.org/" target="_blank" rel="noopener noreferrer" className="text-background/60 hover:text-background transition-colors">Yugminds</a> × <a href="https://navedhana.com" target="_blank" rel="noopener noreferrer" className="text-background/60 hover:text-background transition-colors">Navedhana Software Services</a>
           </p>
         </div>
       </div>

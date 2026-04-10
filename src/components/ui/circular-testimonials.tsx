@@ -184,7 +184,7 @@ export const CircularTestimonials = ({
             display: "flex",
             justifyContent: "center",
             alignItems: "flex-end",
-            minHeight: 280,
+            minHeight: 380,
             perspective: 1000,
           }}
         >
@@ -196,12 +196,12 @@ export const CircularTestimonials = ({
               draggable={false}
               style={{
                 position: index === activeIndex ? "relative" : "absolute",
-                width: 220,
-                height: 220,
-                borderRadius: "50%",
+                width: 320,
+                height: 320,
+                borderRadius: "1.5rem",
                 objectFit: "cover",
                 border: "4px solid hsl(var(--border))",
-                boxShadow: "0 8px 32px rgba(0,0,0,0.12)",
+                boxShadow: "0 12px 40px rgba(0,0,0,0.18)",
                 ...getImageStyle(index),
               }}
             />
@@ -268,7 +268,7 @@ export const CircularTestimonials = ({
               style={{
                 width: 40,
                 height: 40,
-                borderRadius: "50%",
+                borderRadius: "0.5rem",
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
@@ -276,7 +276,7 @@ export const CircularTestimonials = ({
                 cursor: "pointer",
                 background: hoverPrev ? colorArrowHoverBg : colorArrowBg,
                 color: colorArrowFg,
-                transition: "background 0.2s",
+                transition: "all 0.2s",
               }}
               onMouseEnter={() => setHoverPrev(true)}
               onMouseLeave={() => setHoverPrev(false)}
@@ -289,7 +289,7 @@ export const CircularTestimonials = ({
               style={{
                 width: 40,
                 height: 40,
-                borderRadius: "50%",
+                borderRadius: "0.5rem",
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
@@ -297,7 +297,7 @@ export const CircularTestimonials = ({
                 cursor: "pointer",
                 background: hoverNext ? colorArrowHoverBg : colorArrowBg,
                 color: colorArrowFg,
-                transition: "background 0.2s",
+                transition: "all 0.2s",
               }}
               onMouseEnter={() => setHoverNext(true)}
               onMouseLeave={() => setHoverNext(false)}

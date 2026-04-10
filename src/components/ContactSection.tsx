@@ -38,14 +38,14 @@ export default function ContactSection() {
                     <Mail className="w-6 h-6 text-primary mt-1" />
                     <div>
                       <p className="font-medium">Email Us</p>
-                      <p className="text-muted-foreground">hello@lekvya.com</p>
+                      <p className="text-muted-foreground">contact@navedhana.com</p>
                     </div>
                   </div>
                   <div className="flex items-start gap-4">
                     <Phone className="w-6 h-6 text-primary mt-1" />
                     <div>
                       <p className="font-medium">Call Us</p>
-                      <p className="text-muted-foreground">+1 (555) 123-4567</p>
+                      <p className="text-muted-foreground">+91 8885026092</p>
                     </div>
                   </div>
                   <div className="flex items-start gap-4">
@@ -53,8 +53,8 @@ export default function ContactSection() {
                     <div>
                       <p className="font-medium">Visit Us</p>
                       <p className="text-muted-foreground">
-                        123 Automation Blvd<br />
-                        Tech District, CA 94103
+                        Shyamlal Buildings,Begumpet,<br />
+                         Hyderabad,Telangana,India
                       </p>
                     </div>
                   </div>

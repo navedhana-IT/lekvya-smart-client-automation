@@ -1,5 +1,5 @@
-import { motion, useInView, useScroll, useMotionValueEvent } from "framer-motion";
-import { useRef, useState, useEffect } from "react";
+import { motion, useInView, AnimatePresence } from "framer-motion";
+import { useRef, useState } from "react";
 import {
   ShoppingCart,
   Landmark,
@@ -168,42 +168,15 @@ const industries = [
 ];
 
 export default function UseCasesSection() {
-  const containerRef = useRef<HTMLElement>(null);
-  const innerRef = useRef(null);
-  const isInView = useInView(innerRef, { once: true, margin: "-100px" });
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, margin: "-100px" });
   const [activeIndustry, setActiveIndustry] = useState(0);
 
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start start", "end end"],
-  });
-
-  useMotionValueEvent(scrollYProgress, "change", (latest) => {
-    const newIndex = Math.min(
-      Math.floor(latest * industries.length),
-      industries.length - 1
-    );
-    setActiveIndustry(newIndex);
-  });
-
-  const handleTabClick = (i: number) => {
-    setActiveIndustry(i);
-    if (containerRef.current) {
-      const topOfSection = containerRef.current.offsetTop;
-      const sectionHeight = containerRef.current.offsetHeight;
-      const targetScroll =
-        topOfSection +
-        ((i + 0.1) / industries.length) * (sectionHeight - window.innerHeight);
-      window.scrollTo({ top: targetScroll, behavior: "smooth" });
-    }
-  };
-
   return (
-    <section id="use-cases" className="relative h-[400vh] bg-secondary/30" ref={containerRef}>
-      <div className="sticky top-0 w-full min-h-screen py-16 flex flex-col justify-center overflow-hidden">
-        <div className="container mx-auto px-4" ref={innerRef}>
+    <section id="use-cases" className="py-16 bg-secondary/30" ref={ref}>
+      <div className="container mx-auto px-4">
         {/* Header */}
-        <div className="text-center mb-16">
+        <div className="text-center mb-10">
           <motion.span
             initial={{ opacity: 0 }}
             animate={isInView ? { opacity: 1 } : {}}
@@ -221,12 +194,11 @@ export default function UseCasesSection() {
           </motion.h2>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            animate={isInView ? { opacity: 1 } : {}}
             transition={{ delay: 0.2 }}
             className="text-muted-foreground mt-4 max-w-2xl mx-auto"
           >
-            From finance to healthcare, Lekvya powers email automation across
-            every industry.
+            From finance to healthcare, Lekvya powers email automation across every industry.
           </motion.p>
         </div>
 
@@ -236,88 +208,94 @@ export default function UseCasesSection() {
           transition={{ delay: 0.3, duration: 0.6 }}
           className="max-w-6xl mx-auto"
         >
-          <div className="grid grid-cols-1 lg:grid-cols-[280px_1fr] gap-6">
-            {/* Industry Tabs */}
-            <div className="flex lg:flex-col gap-2 overflow-x-auto lg:overflow-visible pb-2 lg:pb-0">
+          <div className="grid grid-cols-1 lg:grid-cols-[240px_1fr] gap-4 items-stretch">
+
+            {/* Industry Tabs — internal scroll, fixed height on desktop */}
+            <div className="flex lg:flex-col gap-2 overflow-x-auto lg:overflow-y-auto lg:overflow-x-hidden pb-2 lg:pb-0 lg:pr-1 scrollbar-thin scrollbar-thumb-border scrollbar-track-transparent">
               {industries.map((industry, i) => {
                 const Icon = industry.icon;
                 return (
                   <button
                     key={industry.title}
-                    onClick={() => handleTabClick(i)}
-                    className={`flex items-center gap-3 px-4 py-3 rounded-xl text-left whitespace-nowrap transition-all duration-300 shrink-0 ${
+                    onClick={() => setActiveIndustry(i)}
+                    className={`flex items-center gap-3 px-4 py-2.5 rounded-xl text-left whitespace-nowrap transition-all duration-300 shrink-0 w-full ${
                       activeIndustry === i
                         ? "bg-primary text-primary-foreground shadow-elevated"
                         : "bg-card border border-border text-muted-foreground hover:border-primary/40 hover:text-foreground"
                     }`}
                   >
                     <Icon
-                      className={`w-5 h-5 shrink-0 ${
-                        activeIndustry === i
-                          ? "text-primary-foreground"
-                          : "text-primary"
+                      className={`w-4 h-4 shrink-0 ${
+                        activeIndustry === i ? "text-primary-foreground" : "text-primary"
                       }`}
                     />
-                    <span className="text-sm font-medium">
-                      {industry.title}
-                    </span>
+                    <span className="text-sm font-medium">{industry.title}</span>
                   </button>
                 );
               })}
             </div>
 
             {/* Content Area */}
-            <div className="bg-card rounded-2xl border border-border p-6 md:p-8">
-              {industries.map((industry, i) => (
+            <div className="bg-card rounded-2xl border border-border px-6 pt-4 pb-6 md:px-8 md:pt-5 md:pb-8 flex flex-col">
+              <AnimatePresence mode="wait">
                 <motion.div
-                  key={industry.title}
-                  initial={false}
-                  animate={{
-                    opacity: activeIndustry === i ? 1 : 0,
-                    display: activeIndustry === i ? "block" : "none",
-                  }}
-                  transition={{ duration: 0.3 }}
+                  key={activeIndustry}
+                  initial={{ opacity: 0, y: 8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -8 }}
+                  transition={{ duration: 0.25 }}
+                  className="flex flex-col flex-1 min-h-0 gap-4"
                 >
-                  {activeIndustry === i && (
-                    <div className="space-y-6">
-                      <div className="flex items-center gap-3 mb-2">
-                        <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center">
-                          <industry.icon className="w-5 h-5 text-primary" />
+                  {(() => {
+                    const industry = industries[activeIndustry];
+                    return (
+                      <>
+                        <div className="flex items-center gap-3">
+                          <div className="w-9 h-9 rounded-xl bg-primary/10 flex items-center justify-center">
+                            <industry.icon className="w-4 h-4 text-primary" />
+                          </div>
+                          <h3 className="text-lg font-bold text-foreground">{industry.title}</h3>
                         </div>
-                        <h3 className="text-xl font-bold text-foreground">
-                          {industry.title}
-                        </h3>
-                      </div>
 
-                      <ul className="space-y-2">
-                        {industry.points.map((point, j) => (
-                          <motion.li
-                            key={j}
-                            initial={{ opacity: 0, x: -10 }}
-                            animate={{ opacity: 1, x: 0 }}
-                            transition={{ delay: 0.08 * j }}
-                            className="flex items-start gap-2 text-sm text-muted-foreground"
-                          >
-                            <span className="w-1.5 h-1.5 rounded-full bg-primary mt-1.5 shrink-0" />
-                            {point}
-                          </motion.li>
-                        ))}
-                      </ul>
+                        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                          {industry.points.map((point, j) => (
+                            <motion.div
+                              key={j}
+                              initial={{ opacity: 0, y: 16 }}
+                              animate={{ opacity: 1, y: 0 }}
+                              transition={{ delay: 0.1 * j + 0.05, duration: 0.35, ease: "easeOut" }}
+                              whileHover={{ y: -4, scale: 1.02 }}
+                              className="group relative flex flex-col gap-2 p-3 rounded-xl border border-border bg-background hover:border-primary/40 hover:shadow-md transition-all duration-300 cursor-default overflow-hidden"
+                            >
+                              <div className="absolute top-0 left-0 right-0 h-[3px] rounded-t-xl bg-gradient-to-r from-orange-400 to-amber-500 opacity-60 group-hover:opacity-100 transition-opacity duration-300" />
+                              <div className="w-6 h-6 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
+                                <span className="text-xs font-bold text-primary">
+                                  {String(j + 1).padStart(2, "00")}
+                                </span>
+                              </div>
+                              <p className="text-sm font-medium text-foreground/80 leading-snug">{point}</p>
+                            </motion.div>
+                          ))}
+                        </div>
 
-                      {/* Image Accordion */}
-                      <InteractiveImageAccordion
-                        items={industry.images}
-                        defaultActiveIndex={0}
-                      />
-                    </div>
-                  )}
+                        {/* Image Accordion — grows to fill remaining space */}
+                        <div className="flex-1 min-h-0">
+                          <InteractiveImageAccordion
+                            items={industry.images}
+                            defaultActiveIndex={0}
+                          />
+                        </div>
+                      </>
+                    );
+                  })()}
                 </motion.div>
-              ))}
+              </AnimatePresence>
             </div>
+
           </div>
         </motion.div>
-      </div>
       </div>
     </section>
   );
 }
+

@@ -1,7 +1,7 @@
 "use client"
 
 import React, { useState, useEffect } from 'react';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { ChevronLeft, ChevronRight, User } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 const SQRT_5000 = Math.sqrt(5000);
@@ -115,14 +115,17 @@ const TestimonialCard: React.FC<TestimonialCardProps> = ({
           height: 2
         }}
       />
-      <img
-        src={testimonial.imgSrc}
-        alt={`${testimonial.by.split(',')[0]}`}
-        className="mb-4 h-14 w-12 bg-muted object-cover object-top"
+      <div 
+        className={cn(
+          "mb-4 h-14 w-14 bg-muted flex items-center justify-center",
+          isCenter ? "bg-primary-foreground/10 text-primary-foreground" : "bg-muted text-muted-foreground"
+        )}
         style={{
           boxShadow: "3px 3px 0px hsl(var(--background))"
         }}
-      />
+      >
+        <User className="w-7 h-7" />
+      </div>
       <h3 className={cn(
         "text-base sm:text-xl font-medium",
         isCenter ? "text-primary-foreground" : "text-foreground"

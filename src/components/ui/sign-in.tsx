@@ -24,26 +24,20 @@ export interface Testimonial {
 interface SignInPageProps {
   title?: React.ReactNode;
   description?: React.ReactNode;
-  heroImageSrc?: string;
-  testimonials?: Testimonial[];
   onSignIn?: (event: React.FormEvent<HTMLFormElement>) => void;
-  onGoogleSignIn?: () => void;
   onResetPassword?: () => void;
   onCreateAccount?: () => void;
 }
 
 interface SignUpPageProps {
-  heroImageSrc?: string;
-  testimonials?: Testimonial[];
   onSignUp?: (event: React.FormEvent<HTMLFormElement>) => void;
-  onGoogleSignUp?: () => void;
   onSignIn?: () => void;
 }
 
 // --- SUB-COMPONENTS ---
 
 const GlassInputWrapper = ({ children }: { children: React.ReactNode }) => (
-  <div className="rounded-2xl border border-border bg-foreground/5 backdrop-blur-sm transition-colors focus-within:border-primary/70 focus-within:bg-primary/5">
+  <div className="relative rounded-2xl border border-slate-200 bg-slate-50/50 shadow-sm transition-all duration-300 focus-within:border-orange-400 focus-within:bg-white focus-within:ring-4 focus-within:ring-orange-500/10 hover:border-slate-300">
     {children}
   </div>
 );
@@ -59,61 +53,32 @@ const TestimonialCard = ({ testimonial, delay }: { testimonial: Testimonial; del
   </div>
 );
 
-const HeroPanel = ({
-  heroImageSrc,
-  testimonials = [],
-}: {
-  heroImageSrc?: string;
-  testimonials?: Testimonial[];
-}) =>
-  heroImageSrc ? (
-    <section className="hidden md:block flex-1 relative p-4">
-      <div
-        className="animate-slide-right animate-delay-300 absolute inset-4 rounded-3xl bg-cover bg-center"
-        style={{ backgroundImage: `url(${heroImageSrc})` }}
-      />
-      {testimonials.length > 0 && (
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex gap-4 px-8 w-full justify-center">
-          <TestimonialCard testimonial={testimonials[0]} delay="animate-delay-1000" />
-          {testimonials[1] && (
-            <div className="hidden xl:flex">
-              <TestimonialCard testimonial={testimonials[1]} delay="animate-delay-1200" />
-            </div>
-          )}
-          {testimonials[2] && (
-            <div className="hidden 2xl:flex">
-              <TestimonialCard testimonial={testimonials[2]} delay="animate-delay-1400" />
-            </div>
-          )}
-        </div>
-      )}
-    </section>
-  ) : null;
+
 
 // --- SIGN IN COMPONENT ---
 
 export const SignInPage: React.FC<SignInPageProps> = ({
-  title = <span className="font-light text-foreground tracking-tighter">Welcome back</span>,
-  description = 'Access your account and continue your journey with us',
-  heroImageSrc,
-  testimonials = [],
+  title = <span className="font-medium tracking-tight text-slate-800">Welcome <span className="text-orange-500 font-bold">back</span></span>,
+  description = 'Access your account and continue your journey with us.',
   onSignIn,
-  onGoogleSignIn,
   onResetPassword,
   onCreateAccount,
 }) => {
   const [showPassword, setShowPassword] = useState(false);
 
   return (
-    <div className="h-[100dvh] flex flex-col md:flex-row w-full">
-      {/* Left column: sign-in form */}
-      <section className="flex-1 flex items-center justify-center p-8">
-        <div className="w-full max-w-md">
-          <div className="flex flex-col gap-6">
-            <h1 className="animate-element animate-delay-100 text-4xl md:text-5xl font-semibold leading-tight">
-              {title}
-            </h1>
-            <p className="animate-element animate-delay-200 text-muted-foreground">{description}</p>
+    <div className="min-h-[calc(100vh-64px)] flex items-center justify-center w-full p-4 md:p-8">
+      {/* Centered sign-in form */}
+      <section className="flex items-center justify-center w-full relative z-10">
+        <div className="w-full max-w-[440px] bg-white border border-slate-100 shadow-[0_20px_40px_-15px_rgba(0,0,0,0.05),0_0_20px_rgba(0,0,0,0.02)] rounded-[32px] p-8 md:p-10 relative overflow-hidden">
+          
+          <div className="flex flex-col gap-7 relative z-10">
+            <div className="text-center">
+              <h1 className="animate-element animate-delay-100 text-3xl md:text-4xl font-semibold leading-tight text-slate-900">
+                {title}
+              </h1>
+              <p className="animate-element animate-delay-200 text-slate-500 mt-2 text-[15px]">{description}</p>
+            </div>
 
             <form className="space-y-5" onSubmit={onSignIn}>
               <div className="animate-element animate-delay-300">
@@ -125,7 +90,7 @@ export const SignInPage: React.FC<SignInPageProps> = ({
                     name="email"
                     type="email"
                     placeholder="Enter your email address"
-                    className="w-full bg-transparent text-sm p-4 rounded-2xl focus:outline-none"
+                    className="w-full bg-transparent text-[15px] font-medium text-slate-800 placeholder:text-slate-400 p-4 rounded-2xl focus:outline-none"
                     required
                   />
                 </GlassInputWrapper>
@@ -141,7 +106,7 @@ export const SignInPage: React.FC<SignInPageProps> = ({
                       name="password"
                       type={showPassword ? 'text' : 'password'}
                       placeholder="Enter your password"
-                      className="w-full bg-transparent text-sm p-4 pr-12 rounded-2xl focus:outline-none"
+                      className="w-full bg-transparent text-[15px] font-medium text-slate-800 placeholder:text-slate-400 p-4 pr-12 rounded-2xl focus:outline-none"
                       required
                     />
                     <button
@@ -150,9 +115,9 @@ export const SignInPage: React.FC<SignInPageProps> = ({
                       className="absolute inset-y-0 right-3 flex items-center"
                     >
                       {showPassword ? (
-                        <EyeOff className="w-5 h-5 text-muted-foreground hover:text-foreground transition-colors" />
+                        <EyeOff className="w-5 h-5 text-slate-400 hover:text-orange-500 transition-colors" />
                       ) : (
-                        <Eye className="w-5 h-5 text-muted-foreground hover:text-foreground transition-colors" />
+                        <Eye className="w-5 h-5 text-slate-400 hover:text-orange-500 transition-colors" />
                       )}
                     </button>
                   </div>
@@ -161,8 +126,8 @@ export const SignInPage: React.FC<SignInPageProps> = ({
 
               <div className="animate-element animate-delay-500 flex items-center justify-between text-sm">
                 <label className="flex items-center gap-3 cursor-pointer">
-                  <input type="checkbox" name="rememberMe" className="rounded" />
-                  <span className="text-foreground/90">Keep me signed in</span>
+                  <input type="checkbox" name="rememberMe" className="rounded-md border-slate-300 text-orange-500 focus:ring-orange-500 w-4 h-4 cursor-pointer" />
+                  <span className="text-slate-600 font-medium">Keep me signed in</span>
                 </label>
                 <a
                   href="#"
@@ -170,7 +135,7 @@ export const SignInPage: React.FC<SignInPageProps> = ({
                     e.preventDefault();
                     onResetPassword?.();
                   }}
-                  className="hover:underline text-primary transition-colors"
+                  className="hover:underline text-orange-500 font-semibold transition-colors"
                 >
                   Reset password
                 </a>
@@ -178,28 +143,15 @@ export const SignInPage: React.FC<SignInPageProps> = ({
 
               <button
                 type="submit"
-                className="animate-element animate-delay-600 w-full rounded-2xl bg-primary py-4 font-medium text-primary-foreground hover:bg-primary/90 transition-colors"
+                className="animate-element animate-delay-600 w-full rounded-2xl bg-gradient-to-r from-orange-500 to-orange-400 py-4 font-bold text-white shadow-[0_8px_20px_rgba(249,115,22,0.25)] hover:shadow-[0_12px_25px_rgba(249,115,22,0.35)] hover:-translate-y-0.5 active:translate-y-0 transition-all duration-300 flex items-center justify-center gap-2"
               >
                 Sign In
               </button>
             </form>
 
-            <div className="animate-element animate-delay-700 relative flex items-center justify-center">
-              <span className="w-full border-t border-border" />
-              <span className="px-4 text-sm text-muted-foreground bg-background absolute whitespace-nowrap">
-                Or continue with
-              </span>
-            </div>
 
-            <button
-              onClick={onGoogleSignIn}
-              className="animate-element animate-delay-800 w-full flex items-center justify-center gap-3 border border-border rounded-2xl py-4 hover:bg-secondary transition-colors"
-            >
-              <GoogleIcon />
-              Continue with Google
-            </button>
 
-            <p className="animate-element animate-delay-900 text-center text-sm text-muted-foreground">
+            <p className="animate-element animate-delay-900 text-center text-[15px] text-slate-500 pt-2">
               New to our platform?{' '}
               <a
                 href="#"
@@ -216,7 +168,7 @@ export const SignInPage: React.FC<SignInPageProps> = ({
         </div>
       </section>
 
-      <HeroPanel heroImageSrc={heroImageSrc} testimonials={testimonials} />
+
     </div>
   );
 };
@@ -224,157 +176,192 @@ export const SignInPage: React.FC<SignInPageProps> = ({
 // --- SIGN UP COMPONENT ---
 
 export const SignUpPage: React.FC<SignUpPageProps> = ({
-  heroImageSrc,
-  testimonials = [],
   onSignUp,
-  onGoogleSignUp,
   onSignIn,
 }) => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
 
   return (
-    <div className="h-[100dvh] flex flex-col md:flex-row w-full">
-      {/* Left column: sign-up form */}
-      <section className="flex-1 flex items-center justify-center p-8 overflow-y-auto">
-        <div className="w-full max-w-md py-8">
-          <div className="flex flex-col gap-6">
-            <div>
-              <h1 className="animate-element animate-delay-100 text-4xl md:text-5xl font-semibold leading-tight">
-                Get started
+    <div className="min-h-[calc(100vh-64px)] flex items-center justify-center w-full p-4 md:p-8">
+      {/* Centered sign-up form */}
+      <section className="flex items-center justify-center w-full relative z-10">
+        <div className="w-full max-w-[1000px] bg-white border border-slate-100 shadow-[0_20px_40px_-15px_rgba(0,0,0,0.05),0_0_20px_rgba(0,0,0,0.02)] rounded-[32px] p-6 md:p-10 relative overflow-hidden">
+          
+          <div className="flex flex-col gap-6 relative z-10">
+            <div className="text-center">
+              <h1 className="animate-element animate-delay-100 text-3xl md:text-4xl font-semibold leading-tight text-slate-900">
+                Get <span className="text-orange-500 font-bold">started</span>
               </h1>
-              <p className="animate-element animate-delay-200 text-muted-foreground mt-2">
-                Create your free Lekvya account today
+              <p className="animate-element animate-delay-200 text-slate-500 mt-2 text-[15px]">
+                Create your free Lekvya account today. No credit card required.
               </p>
             </div>
 
-            <form className="space-y-4" onSubmit={onSignUp}>
-              <div className="animate-element animate-delay-200 grid grid-cols-2 gap-4">
-                <div>
-                  <label className="text-sm font-medium text-muted-foreground block mb-1.5">
-                    First Name
+            <form className="space-y-6" onSubmit={onSignUp}>
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
+                {/* Row 1: Identity */}
+                <div className="animate-element animate-delay-200">
+                  <label className="text-[13px] font-semibold text-slate-600 block mb-2 uppercase tracking-wide">
+                    Full Name
                   </label>
                   <GlassInputWrapper>
                     <input
-                      name="firstName"
+                      name="fullName"
                       type="text"
-                      placeholder="John"
-                      className="w-full bg-transparent text-sm p-4 rounded-2xl focus:outline-none"
+                      placeholder="John Doe"
+                      className="w-full bg-transparent text-[15px] font-medium text-slate-800 placeholder:text-slate-400 p-4 rounded-2xl focus:outline-none"
                       required
                     />
                   </GlassInputWrapper>
                 </div>
-                <div>
-                  <label className="text-sm font-medium text-muted-foreground block mb-1.5">
-                    Last Name
+
+                <div className="animate-element animate-delay-300">
+                  <label className="text-[13px] font-semibold text-slate-600 block mb-2 uppercase tracking-wide">
+                    Email ID
                   </label>
                   <GlassInputWrapper>
                     <input
-                      name="lastName"
-                      type="text"
-                      placeholder="Doe"
-                      className="w-full bg-transparent text-sm p-4 rounded-2xl focus:outline-none"
+                      name="email"
+                      type="email"
+                      placeholder="john@example.com"
+                      className="w-full bg-transparent text-[15px] font-medium text-slate-800 placeholder:text-slate-400 p-4 rounded-2xl focus:outline-none"
                       required
                     />
                   </GlassInputWrapper>
                 </div>
-              </div>
 
-              <div className="animate-element animate-delay-300">
-                <label className="text-sm font-medium text-muted-foreground block mb-1.5">
-                  Email Address
-                </label>
-                <GlassInputWrapper>
-                  <input
-                    name="email"
-                    type="email"
-                    placeholder="john@company.com"
-                    className="w-full bg-transparent text-sm p-4 rounded-2xl focus:outline-none"
-                    required
-                  />
-                </GlassInputWrapper>
-              </div>
-
-              <div className="animate-element animate-delay-400">
-                <label className="text-sm font-medium text-muted-foreground block mb-1.5">
-                  Company (optional)
-                </label>
-                <GlassInputWrapper>
-                  <input
-                    name="company"
-                    type="text"
-                    placeholder="Acme Inc."
-                    className="w-full bg-transparent text-sm p-4 rounded-2xl focus:outline-none"
-                  />
-                </GlassInputWrapper>
-              </div>
-
-              <div className="animate-element animate-delay-500">
-                <label className="text-sm font-medium text-muted-foreground block mb-1.5">
-                  Password
-                </label>
-                <GlassInputWrapper>
-                  <div className="relative">
+                <div className="animate-element animate-delay-400">
+                  <label className="text-[13px] font-semibold text-slate-600 block mb-2 uppercase tracking-wide">
+                    Phone No
+                  </label>
+                  <GlassInputWrapper>
                     <input
-                      name="password"
-                      type={showPassword ? 'text' : 'password'}
-                      placeholder="Create a strong password"
-                      className="w-full bg-transparent text-sm p-4 pr-12 rounded-2xl focus:outline-none"
+                      name="phone"
+                      type="tel"
+                      placeholder="+1 (555) 000-0000"
+                      className="w-full bg-transparent text-[15px] font-medium text-slate-800 placeholder:text-slate-400 p-4 rounded-2xl focus:outline-none"
                       required
                     />
-                    <button
-                      type="button"
-                      onClick={() => setShowPassword(!showPassword)}
-                      className="absolute inset-y-0 right-3 flex items-center"
-                    >
-                      {showPassword ? (
-                        <EyeOff className="w-5 h-5 text-muted-foreground hover:text-foreground transition-colors" />
-                      ) : (
-                        <Eye className="w-5 h-5 text-muted-foreground hover:text-foreground transition-colors" />
-                      )}
-                    </button>
-                  </div>
-                </GlassInputWrapper>
-              </div>
+                  </GlassInputWrapper>
+                </div>
 
-              <div className="animate-element animate-delay-600">
-                <label className="text-sm font-medium text-muted-foreground block mb-1.5">
-                  Confirm Password
-                </label>
-                <GlassInputWrapper>
-                  <div className="relative">
+                {/* Row 2: Organization & Location pt 1 */}
+                <div className="animate-element animate-delay-300">
+                  <label className="text-[13px] font-semibold text-slate-600 block mb-2 uppercase tracking-wide">
+                    Organisation Name
+                  </label>
+                  <GlassInputWrapper>
                     <input
-                      name="confirmPassword"
-                      type={showConfirm ? 'text' : 'password'}
-                      placeholder="Confirm your password"
-                      className="w-full bg-transparent text-sm p-4 pr-12 rounded-2xl focus:outline-none"
+                      name="organisation"
+                      type="text"
+                      placeholder="Acme Inc."
+                      className="w-full bg-transparent text-[15px] font-medium text-slate-800 placeholder:text-slate-400 p-4 rounded-2xl focus:outline-none"
                       required
                     />
-                    <button
-                      type="button"
-                      onClick={() => setShowConfirm(!showConfirm)}
-                      className="absolute inset-y-0 right-3 flex items-center"
-                    >
-                      {showConfirm ? (
-                        <EyeOff className="w-5 h-5 text-muted-foreground hover:text-foreground transition-colors" />
-                      ) : (
-                        <Eye className="w-5 h-5 text-muted-foreground hover:text-foreground transition-colors" />
-                      )}
-                    </button>
-                  </div>
-                </GlassInputWrapper>
+                  </GlassInputWrapper>
+                </div>
+
+                <div className="animate-element animate-delay-400">
+                  <label className="text-[13px] font-semibold text-slate-600 block mb-2 uppercase tracking-wide">
+                    Country
+                  </label>
+                  <GlassInputWrapper>
+                    <input
+                      name="country"
+                      type="text"
+                      placeholder="United States"
+                      className="w-full bg-transparent text-[15px] font-medium text-slate-800 placeholder:text-slate-400 p-4 rounded-2xl focus:outline-none"
+                      required
+                    />
+                  </GlassInputWrapper>
+                </div>
+
+                <div className="animate-element animate-delay-500">
+                  <label className="text-[13px] font-semibold text-slate-600 block mb-2 uppercase tracking-wide">
+                    State
+                  </label>
+                  <GlassInputWrapper>
+                    <input
+                      name="state"
+                      type="text"
+                      placeholder="California"
+                      className="w-full bg-transparent text-[15px] font-medium text-slate-800 placeholder:text-slate-400 p-4 rounded-2xl focus:outline-none"
+                      required
+                    />
+                  </GlassInputWrapper>
+                </div>
+
+                {/* Row 3: Location pt 2 & Security */}
+                <div className="animate-element animate-delay-500">
+                  <label className="text-[13px] font-semibold text-slate-600 block mb-2 uppercase tracking-wide">
+                    City
+                  </label>
+                  <GlassInputWrapper>
+                    <input
+                      name="city"
+                      type="text"
+                      placeholder="San Francisco"
+                      className="w-full bg-transparent text-[15px] font-medium text-slate-800 placeholder:text-slate-400 p-4 rounded-2xl focus:outline-none"
+                      required
+                    />
+                  </GlassInputWrapper>
+                </div>
+
+                <div className="animate-element animate-delay-600">
+                  <label className="text-[13px] font-semibold text-slate-600 block mb-2 uppercase tracking-wide">
+                    Pin Code
+                  </label>
+                  <GlassInputWrapper>
+                    <input
+                      name="pincode"
+                      type="text"
+                      placeholder="94105"
+                      className="w-full bg-transparent text-[15px] font-medium text-slate-800 placeholder:text-slate-400 p-4 rounded-2xl focus:outline-none"
+                      required
+                    />
+                  </GlassInputWrapper>
+                </div>
+
+                <div className="animate-element animate-delay-700">
+                  <label className="text-[13px] font-semibold text-slate-600 block mb-2 uppercase tracking-wide">
+                    Password
+                  </label>
+                  <GlassInputWrapper>
+                    <div className="relative">
+                      <input
+                        name="password"
+                        type={showPassword ? 'text' : 'password'}
+                        placeholder="Create a strong password"
+                        className="w-full bg-transparent text-[15px] font-medium text-slate-800 placeholder:text-slate-400 p-4 pr-12 rounded-2xl focus:outline-none"
+                        required
+                      />
+                      <button
+                        type="button"
+                        onClick={() => setShowPassword(!showPassword)}
+                        className="absolute inset-y-0 right-3 flex items-center"
+                      >
+                        {showPassword ? (
+                          <EyeOff className="w-5 h-5 text-slate-400 hover:text-orange-500 transition-colors" />
+                        ) : (
+                          <Eye className="w-5 h-5 text-slate-400 hover:text-orange-500 transition-colors" />
+                        )}
+                      </button>
+                    </div>
+                  </GlassInputWrapper>
+                </div>
               </div>
 
               <div className="animate-element animate-delay-700">
                 <label className="flex items-start gap-3 cursor-pointer text-sm">
                   <input type="checkbox" name="terms" className="rounded mt-0.5" required />
-                  <span className="text-foreground/70">
+                  <span className="text-slate-600 font-medium">
                     I agree to the{' '}
-                    <a href="#" className="text-primary hover:underline">
+                    <a href="#" className="text-orange-500 font-semibold hover:underline">
                       Terms of Service
                     </a>{' '}
                     and{' '}
-                    <a href="#" className="text-primary hover:underline">
+                    <a href="#" className="text-orange-500 font-semibold hover:underline">
                       Privacy Policy
                     </a>
                   </span>
@@ -383,28 +370,15 @@ export const SignUpPage: React.FC<SignUpPageProps> = ({
 
               <button
                 type="submit"
-                className="animate-element animate-delay-800 w-full rounded-2xl bg-primary py-4 font-medium text-primary-foreground hover:bg-primary/90 transition-colors"
+                className="animate-element animate-delay-800 w-full rounded-2xl bg-gradient-to-r from-orange-500 to-orange-400 py-4 font-bold text-white shadow-[0_8px_20px_rgba(249,115,22,0.25)] hover:shadow-[0_12px_25px_rgba(249,115,22,0.35)] hover:-translate-y-0.5 active:translate-y-0 transition-all duration-300 flex items-center justify-center gap-2"
               >
                 Create Account
               </button>
             </form>
 
-            <div className="animate-element animate-delay-800 relative flex items-center justify-center">
-              <span className="w-full border-t border-border" />
-              <span className="px-4 text-sm text-muted-foreground bg-background absolute whitespace-nowrap">
-                Or continue with
-              </span>
-            </div>
 
-            <button
-              onClick={onGoogleSignUp}
-              className="animate-element animate-delay-900 w-full flex items-center justify-center gap-3 border border-border rounded-2xl py-4 hover:bg-secondary transition-colors"
-            >
-              <GoogleIcon />
-              Sign up with Google
-            </button>
 
-            <p className="animate-element animate-delay-900 text-center text-sm text-muted-foreground">
+            <p className="animate-element animate-delay-900 text-center text-[15px] text-slate-500 pt-2">
               Already have an account?{' '}
               <a
                 href="#"
@@ -412,7 +386,7 @@ export const SignUpPage: React.FC<SignUpPageProps> = ({
                   e.preventDefault();
                   onSignIn?.();
                 }}
-                className="text-primary hover:underline transition-colors font-medium"
+                className="text-orange-500 hover:underline transition-colors font-semibold"
               >
                 Sign In
               </a>
@@ -421,7 +395,7 @@ export const SignUpPage: React.FC<SignUpPageProps> = ({
         </div>
       </section>
 
-      <HeroPanel heroImageSrc={heroImageSrc} testimonials={testimonials} />
+
     </div>
   );
 };

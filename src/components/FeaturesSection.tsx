@@ -103,7 +103,8 @@ export default function FeaturesSection() {
             className="text-3xl md:text-4xl font-bold text-foreground mt-3"
           >
             Everything you need to{" "}
-            <span className="text-gradient">automate</span>
+            <span className="text-gradient">Automate</span>
+
           </motion.h2>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
@@ -143,12 +144,22 @@ export default function FeaturesSection() {
               key={feature.title}
               initial={{ opacity: 0, y: 30 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ delay: 0.1 * i, duration: 0.5 }}
+              whileHover={{ y: -8, scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              transition={{
+                opacity: { duration: 0.5, delay: 0.1 * i },
+                y: { duration: 0.5, delay: 0.1 * i, type: "spring", stiffness: 100 },
+                scale: { duration: 0.2 },
+              }}
               className="group p-6 rounded-2xl bg-card border border-border hover:shadow-elevated transition-all duration-300"
             >
-              <div className="w-12 h-12 rounded-xl bg-accent flex items-center justify-center mb-4 group-hover:bg-gradient-primary group-hover:text-primary-foreground transition-all duration-300">
+              <motion.div
+                className="w-12 h-12 rounded-xl bg-accent flex items-center justify-center mb-4 group-hover:bg-gradient-primary group-hover:text-primary-foreground transition-all duration-300 shadow-sm"
+                whileHover={{ rotate: [0, -10, 10, -5, 5, 0] }}
+                transition={{ duration: 0.5 }}
+              >
                 <feature.icon className="w-6 h-6 text-primary group-hover:text-primary-foreground transition-colors" />
-              </div>
+              </motion.div>
               <h3 className="text-lg font-semibold text-foreground mb-2">{feature.title}</h3>
               <p className="text-sm text-muted-foreground leading-relaxed">{feature.description}</p>
             </motion.div>

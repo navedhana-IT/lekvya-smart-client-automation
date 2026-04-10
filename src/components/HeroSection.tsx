@@ -133,10 +133,14 @@ export default function HeroSection() {
   const navigate = useNavigate();
   const containerRef = useRef<HTMLDivElement>(null);
   const [isMobile, setIsMobile] = useState(false);
+  const [isTablet, setIsTablet] = useState(false);
   const [isScrolledLayout, setIsScrolledLayout] = useState(false);
 
   useEffect(() => {
-    const handleResize = () => setIsMobile(window.innerWidth < 768);
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768);
+      setIsTablet(window.innerWidth >= 768 && window.innerWidth < 1024);
+    };
     handleResize();
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
@@ -158,18 +162,33 @@ export default function HeroSection() {
   const justifyStyles = isScrolledLayout ? "justify-start" : "justify-center";
 
   // Text scroll mappings
-  const textX = useTransform(scrollYProgress, [0, 0.15, 0.35, 0.7], ["50%", "0%", "0%", "-50vw"]);
+  const textX = useTransform(
+    scrollYProgress, 
+    [0, 0.15, 0.35, 0.7], 
+    isMobile ? ["0%", "0%", "0%", "-150vw"] : isTablet ? ["10%", "0%", "0%", "-80vw"] : ["50%", "0%", "0%", "-50vw"]
+  );
+  const textY = useTransform(
+    scrollYProgress, 
+    [0, 0.15, 0.35, 0.7], 
+    isMobile ? ["0vh", "0vh", "0vh", "-50vh"] : ["0vh", "0vh", "0vh", "0vh"]
+  );
   const textOpacity = useTransform(scrollYProgress, [0, 0.15, 0.35, 0.6], [1, 1, 1, 0]);
 
   // Image Core Motion
   const desktopImageX = ["-15%", "-15%", "-15%", "-50%"];
+  const tabletImageX = ["-50%", "-50%", "-50%", "-50%"];
   const mobileImageX = ["-50%", "-50%", "-50%", "-50%"];
 
-  const imageX = useTransform(scrollYProgress, [0, 0.15, 0.35, 0.8], isMobile ? mobileImageX : desktopImageX);
-  const imageY = useTransform(scrollYProgress, [0, 0.8], ["-50%", "-50%"]); // Reset Y to perfect vertical center
+  const imageX = useTransform(scrollYProgress, [0, 0.15, 0.35, 0.8], isMobile ? mobileImageX : isTablet ? tabletImageX : desktopImageX);
+  
+  const imageY = useTransform(
+    scrollYProgress, 
+    [0, 0.8], 
+    isMobile ? ["10vh", "10vh"] : isTablet ? ["-10%", "-10%"] : ["-50%", "-50%"]
+  ); 
 
   // Image growing sequence
-  const imageScale = useTransform(scrollYProgress, [0, 0.15, 0.35, 0.8], [0, isMobile ? 0.8 : 0.65, isMobile ? 0.8 : 0.65, 1.05]);
+  const imageScale = useTransform(scrollYProgress, [0, 0.15, 0.35, 0.8], [0, isMobile ? 0.9 : isTablet ? 0.8 : 0.65, isMobile ? 0.9 : isTablet ? 0.8 : 0.65, 1.05]);
   const imageOpacity = useTransform(scrollYProgress, [0, 0.1, 0.15], [0, 1, 1]);
 
   // Stack of background cards fade out seamlessly right before it expands
@@ -232,10 +251,10 @@ export default function HeroSection() {
 
         <RangoliBackground />
 
-        <div className="w-full h-full max-w-[1500px] mx-auto flex items-center relative px-4 md:px-12" style={{ perspective: "1500px" }}>
+        <div className="w-full h-full max-w-[1500px] mx-auto flex flex-col md:flex-row items-start md:items-center pt-24 md:pt-0 relative px-4 md:px-12" style={{ perspective: "1500px" }}>
 
           {/* Text Content */}
-          <motion.div style={{ opacity: textOpacity, x: textX }} className="w-full md:w-[48%] relative z-20 pb-40 md:pb-0">
+          <motion.div style={{ opacity: textOpacity, x: textX, y: textY }} className="w-full md:w-[60%] lg:w-[48%] relative z-20">
             <motion.div
               layout
               variants={containerVariants}

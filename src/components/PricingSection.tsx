@@ -43,7 +43,7 @@ const plans = [
   },
   {
     name: "Premium",
-    price: "₹1000",
+    price: "₹999",
     period: "/month",
     badge: "Coming Soon",
     description: "Enterprise-grade features for large organizations.",

@@ -3,36 +3,17 @@ import { useNavigate } from "react-router-dom";
 import { SignInPage, SignUpPage, Testimonial } from "@/components/ui/sign-in";
 import logo from "@/assets/lekvya-logo-new.png";
 
-const heroImage =
-  "https://images.unsplash.com/photo-1642615835477-d303d7dc9ee9?w=2160&q=80";
 
-const testimonials: Testimonial[] = [
-  {
-    avatarSrc: "https://randomuser.me/api/portraits/women/57.jpg",
-    name: "Sarah Chen",
-    handle: "@sarahdigital",
-    text: "Amazing platform! The automation workflows are seamless.",
-  },
-  {
-    avatarSrc: "https://randomuser.me/api/portraits/men/64.jpg",
-    name: "Marcus Johnson",
-    handle: "@marcustech",
-    text: "This service has transformed how our CA firm handles clients.",
-  },
-  {
-    avatarSrc: "https://randomuser.me/api/portraits/men/32.jpg",
-    name: "David Martinez",
-    handle: "@davidcreates",
-    text: "Intuitive, reliable, and genuinely helpful for productivity.",
-  },
-];
 
 export default function Login() {
   const [mode, setMode] = useState<"signin" | "signup">("signin");
   const navigate = useNavigate();
 
   return (
-    <div className="min-h-screen bg-background text-foreground">
+    <div className="min-h-screen bg-background text-foreground relative overflow-hidden">
+      {/* Decorative ambient background blur */}
+      <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] rounded-full bg-primary/10 blur-[120px] pointer-events-none" />
+      <div className="absolute bottom-[-10%] right-[-5%] w-[50%] h-[50%] rounded-full bg-orange-500/5 blur-[120px] pointer-events-none" />
       {/* Top bar with logo + back link */}
       <header className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 py-3 bg-background/80 backdrop-blur-lg border-b border-border">
         <a href="/" onClick={(e) => { e.preventDefault(); navigate("/"); }}>
@@ -84,27 +65,21 @@ export default function Login() {
               </span>
             }
             description="Sign in to your Lekvya account and automate smarter."
-            heroImageSrc={heroImage}
-            testimonials={testimonials}
             onSignIn={(e) => {
               e.preventDefault();
               // TODO: integrate auth
               console.log("Sign In submitted");
             }}
-            onGoogleSignIn={() => console.log("Google Sign In")}
             onResetPassword={() => console.log("Reset Password")}
             onCreateAccount={() => setMode("signup")}
           />
         ) : (
           <SignUpPage
-            heroImageSrc={heroImage}
-            testimonials={testimonials}
             onSignUp={(e) => {
               e.preventDefault();
               // TODO: integrate auth
               console.log("Sign Up submitted");
             }}
-            onGoogleSignUp={() => console.log("Google Sign Up")}
             onSignIn={() => setMode("signin")}
           />
         )}
